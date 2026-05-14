@@ -234,7 +234,7 @@
     /* 院內網路提示橫幅 */
     .intranet-notice {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 10px;
       background: #2d1a00;
       border: 1px solid #fb8c00;
@@ -244,11 +244,13 @@
       font-size: 0.9rem;
       color: #ffb74d;
       font-weight: 600;
+      line-height: 1.6;
     }
 
     .intranet-notice .notice-icon {
       font-size: 1.2rem;
       flex-shrink: 0;
+      margin-top: 2px;
     }
 
     /* 頁尾 */
@@ -275,7 +277,7 @@
   <!-- 院內網路提示 -->
   <div class="intranet-notice">
     <span class="notice-icon">⚠️</span>
-    本頁連結（照片下載、素材取得）需於<strong style="color:#ffcc80;">院內網路環境</strong>下才能正常使用
+    <span>本頁連結（照片下載、素材取得）需於<strong style="color:#ffcc80;">院內網路環境</strong>下才能正常使用</span>
   </div>
 
   <!-- 人員照片下載 -->
