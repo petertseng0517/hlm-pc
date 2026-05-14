@@ -238,7 +238,8 @@
     }
 
     /* 不支援提示 */
-    #no-webp-warning {
+    #no-webp-warning,
+    #file-size-warning {
       display: none;
       margin-top: 12px;
       background: #fff3e0;
@@ -264,6 +265,9 @@
 
   <div id="no-webp-warning">
     您的瀏覽器不支援輸出 WebP 格式，建議使用 Chrome 或 Edge。
+  </div>
+  <div id="file-size-warning">
+    圖片檔案超過 20MB，已自動縮小以確保穩定性，不影響裁切操作。
   </div>
 
   <!-- 工具區 -->
@@ -332,6 +336,11 @@
   const downloadBtn = document.getElementById('download-btn');
   const resetBtn = document.getElementById('reset-btn');
   const noWebpWarning = document.getElementById('no-webp-warning');
+  const fileSizeWarning = document.getElementById('file-size-warning');
+
+  const MAX_FILE_MB = 20;
+  const MAX_DIMENSION = 4000;
+  const JOOMLA_LIMIT_BYTES = 2 * 1024 * 1024;
 
   let cropper = null;
   let originalFileName = 'image';
@@ -372,13 +381,29 @@
 
   function loadFile(file) {
     originalFileName = file.name.replace(/\.[^.]+$/, '');
+
+    // 第 1 層：檔案大小警告
+    fileSizeWarning.style.display = file.size > MAX_FILE_MB * 1024 * 1024 ? 'block' : 'none';
+
     const url = URL.createObjectURL(file);
-    sourceImage.src = url;
-    sourceImage.onload = () => {
-      dropZone.style.display = 'none';
-      toolArea.style.display = 'block';
-      initCropper();
+    const img = new Image();
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      // 第 2 層：自動縮圖（超過 MAX_DIMENSION 時等比縮小）
+      const scale = Math.min(1, MAX_DIMENSION / Math.max(img.naturalWidth, img.naturalHeight));
+      const w = Math.round(img.naturalWidth * scale);
+      const h = Math.round(img.naturalHeight * scale);
+      const tmpCanvas = document.createElement('canvas');
+      tmpCanvas.width = w; tmpCanvas.height = h;
+      tmpCanvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      sourceImage.src = tmpCanvas.toDataURL('image/png');
+      sourceImage.onload = () => {
+        dropZone.style.display = 'none';
+        toolArea.style.display = 'block';
+        initCropper();
+      };
     };
+    img.src = url;
   }
 
   function initCropper() {
@@ -407,11 +432,14 @@
     previewCanvas.width = canvas.width;
     previewCanvas.height = canvas.height;
     previewCanvas.getContext('2d').drawImage(canvas, 0, 0);
-    // 估算大小
+    // 第 3 層：估算大小，超過 Joomla 限制時紅字警告
     canvas.toBlob((blob) => {
       if (!blob) return;
       const kb = (blob.size / 1024).toFixed(1);
-      sizeDisplay.innerHTML = `約 <span>${kb} KB</span>`;
+      const overLimit = blob.size > JOOMLA_LIMIT_BYTES;
+      sizeDisplay.innerHTML = overLimit
+        ? `約 <span style="color:#d32f2f">${kb} KB ⚠ 超過 Joomla 建議 2MB，請降低品質或縮小裁切範圍</span>`
+        : `約 <span>${kb} KB</span>`;
     }, 'image/webp', quality);
   }
 
@@ -456,6 +484,7 @@
     toolArea.style.display = 'none';
     dropZone.style.display = 'block';
     sizeDisplay.innerHTML = '— ';
+    fileSizeWarning.style.display = 'none';
     document.querySelectorAll('.ratio-btn').forEach(b => b.classList.remove('active'));
   });
 })();
