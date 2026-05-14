@@ -1,6 +1,14 @@
 site_name: Joomla Study Zone
 theme:
   name: material
+  features:
+    - navigation.top
+    - search.highlight
+    - content.tooltips
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
 nav:
   - 首頁: index.md
   - 關於我: https://github.com/petertseng0517
@@ -13,7 +21,7 @@ nav:
       - 在joomla文章內文放置檔案下載連結: joomla/在joomla文章內文放置檔案下載連結.md
       - 圖片裁切轉WebP工具: tools/image-to-webp.html
       - Joomla編輯者切勿有以下行為: joomla/Joomla編輯者切勿有以下行為.md
-  - 進階教學(醫務部): 
+  - 進階教學(醫務部):
       - 編輯醫療科首頁: joomla/編輯醫療科首頁.md
       - 編輯醫師資料: joomla/編輯醫師資料.md
       - 新增醫療科的衛教內容: joomla/新增醫療科的衛教內容.md
