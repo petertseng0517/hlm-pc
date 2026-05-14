@@ -39,6 +39,23 @@
       margin-top: 6px;
     }
 
+    /* 院內網路提示橫幅 */
+    .intranet-notice {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #2d1a00;
+      border: 1px solid #fb8c00;
+      border-radius: 8px;
+      padding: 12px 18px;
+      margin-bottom: 32px;
+      font-size: 0.9rem;
+      color: #ffb74d;
+      font-weight: 600;
+    }
+
+    .intranet-notice .notice-icon { font-size: 1.2rem; flex-shrink: 0; }
+
     /* 主後台按鈕 */
     .main-admin {
       display: flex;
@@ -145,6 +162,12 @@
     <h1>慈院各科網站後台入口</h1>
     <p class="sub">花蓮慈濟醫院公共傳播室 · 請選擇要編輯的網站管理後台</p>
   </header>
+
+  <!-- 院內網路提示 -->
+  <div class="intranet-notice">
+    <span class="notice-icon">⚠️</span>
+    本頁連結需於<strong style="color:#ffcc80;">院內網路環境</strong>下才能正常使用
+  </div>
 
   <!-- 主後台 -->
   <div class="main-admin">
