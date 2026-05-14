@@ -1,6 +1,10 @@
-site_name: Joomla Study Zone
+site_name: 花蓮慈院網站維護教學
 theme:
   name: material
+  palette:
+    scheme: slate
+    primary: teal
+    accent: teal
   features:
     - navigation.top
     - search.highlight
