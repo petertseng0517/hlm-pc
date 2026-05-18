@@ -494,6 +494,61 @@ nav{
     }
 }
 
+/* ===== READING ===== */
+
+.reading{
+    padding:80px 10%;
+    background:#f7f3ee;
+    border-top:1px solid rgba(44,31,16,0.06);
+}
+
+.reading-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:12px;
+    margin-top:40px;
+}
+
+.reading-link{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:16px 18px;
+    border:1px solid rgba(44,31,16,0.08);
+    border-radius:2px;
+    text-decoration:none;
+    color:#2c1f10;
+    font-size:13px;
+    line-height:1.5;
+    transition:all 0.3s ease;
+    background:#f7f3ee;
+}
+
+.reading-link:hover{
+    border-color:#b5893a;
+    background:#f0ebe2;
+}
+
+.reading-arrow{
+    flex-shrink:0;
+    font-size:11px;
+    color:#b5893a;
+    margin-top:2px;
+    transition:transform 0.2s;
+}
+
+.reading-link:hover .reading-arrow{
+    transform:translateX(3px);
+}
+
+@media(max-width:768px){
+    .reading-grid{ grid-template-columns:1fr 1fr; }
+}
+
+@media(max-width:480px){
+    .reading-grid{ grid-template-columns:1fr; }
+}
+
 /* ===== REVEAL ===== */
 
 .reveal{
@@ -1184,6 +1239,57 @@ footer{
 
 </section>
 
+
+<section class="reading">
+
+    <div class="reveal">
+
+        <div class="kicker">延伸閱讀</div>
+
+        <div class="big-text">深入了解我們</div>
+
+        <div class="reading-grid">
+
+            <a class="reading-link" href="https://hackmd.io/@petertseng/H1wOAWPRZx" target="_blank" rel="noopener">
+                <span class="reading-arrow">→</span>
+                公共傳播室歷年成果總覽
+            </a>
+
+            <a class="reading-link" href="https://hackmd.io/@petertseng/HylE07DCZl" target="_blank" rel="noopener">
+                <span class="reading-arrow">→</span>
+                雙軌衛教創新亮點
+            </a>
+
+            <a class="reading-link" href="https://hackmd.io/@petertseng/r1-Q0QDA-e" target="_blank" rel="noopener">
+                <span class="reading-arrow">→</span>
+                防詐騙宣導專區
+            </a>
+
+            <a class="reading-link" href="https://hackmd.io/@petertseng/B1Vz0QvAbe" target="_blank" rel="noopener">
+                <span class="reading-arrow">→</span>
+                台灣醫療科技展傳播規劃
+            </a>
+
+            <a class="reading-link" href="https://hackmd.io/@petertseng/SywZRmPAWx" target="_blank" rel="noopener">
+                <span class="reading-arrow">→</span>
+                重大災難危機傳播應變
+            </a>
+
+            <a class="reading-link" href="https://hackmd.io/@petertseng/rJ_kRQwC-g" target="_blank" rel="noopener">
+                <span class="reading-arrow">→</span>
+                健康資訊正確性把關機制
+            </a>
+
+            <a class="reading-link" href="https://hackmd.io/@petertseng/BJg9pa7wCZx" target="_blank" rel="noopener">
+                <span class="reading-arrow">→</span>
+                App 傳播推廣
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
 
 <footer>
 
