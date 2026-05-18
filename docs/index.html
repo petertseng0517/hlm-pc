@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>公共傳播室 | 花蓮慈濟醫院</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Noto+Serif+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#f7f3ee;
+    color:#2c1f10;
+    overflow-x:hidden;
+    font-family:'Noto Serif TC', serif;
+}
+
+/* ===== NAV ===== */
+
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:1000;
+    padding:30px 60px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    mix-blend-mode:difference;
+    color:#ffffff;
+}
+
+.logo{
+    font-size:14px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+}
+
+.nav-right{
+    font-size:12px;
+    letter-spacing:3px;
+    opacity:0.8;
+}
+
+/* ===== HERO ===== */
+
+.hero{
+    position:relative;
+    width:100%;
+    height:100vh;
+    overflow:hidden;
+}
+
+.hero-img{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center top;
+}
+
+.hero-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        to bottom,
+        transparent 0%,
+        transparent 35%,
+        rgba(20,10,3,0.45) 62%,
+        rgba(20,10,3,0.92) 100%
+    );
+}
+
+.hero-content{
+    position:relative;
+    z-index:10;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:center;
+    text-align:center;
+    padding:20px 20px 110px;
+    color:#ffffff;
+    text-shadow:0 2px 24px rgba(0,0,0,0.35);
+}
+
+.hero-sub{
+    font-size:12px;
+    letter-spacing:8px;
+    margin-bottom:30px;
+    opacity:0.75;
+}
+
+.hero-title{
+    font-family:'Cormorant Garamond', serif;
+    font-size:clamp(58px, 10vw, 140px);
+    font-weight:300;
+    line-height:0.95;
+    letter-spacing:4px;
+}
+
+.hero-desc{
+    margin-top:40px;
+    font-size:15px;
+    line-height:2.2;
+    opacity:0.82;
+}
+
+.scroll-indicator{
+    position:absolute;
+    bottom:40px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:11px;
+    letter-spacing:4px;
+    color:#ffffff;
+    opacity:0.6;
+    animation:float 2.5s infinite;
+}
+
+@keyframes float{
+    0%{ transform:translate(-50%,0); }
+    50%{ transform:translate(-50%,12px); }
+    100%{ transform:translate(-50%,0); }
+}
+
+/* ===== MIST ===== */
+
+.mc{
+    position:absolute;
+    left:0;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:3;
+}
+
+/* 山腰樹線區（圖片中間偏上） */
+.mc-1{
+    top:28%;
+    width:72vw;
+    height:240px;
+    background:radial-gradient(ellipse, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.52) 45%, transparent 70%);
+    filter:blur(18px);
+    animation:mcRight 50s infinite linear;
+}
+
+.mc-2{
+    top:40%;
+    width:58vw;
+    height:190px;
+    background:radial-gradient(ellipse, rgba(232,246,255,0.88) 0%, rgba(232,246,255,0.45) 42%, transparent 70%);
+    filter:blur(16px);
+    animation:mcLeft 37s infinite linear;
+    animation-delay:-20s;
+}
+
+.mc-3{
+    top:22%;
+    width:46vw;
+    height:170px;
+    background:radial-gradient(ellipse, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.42) 40%, transparent 70%);
+    filter:blur(20px);
+    animation:mcRight 33s infinite linear;
+    animation-delay:-13s;
+}
+
+.mc-4{
+    top:47%;
+    width:66vw;
+    height:210px;
+    background:radial-gradient(ellipse, rgba(245,252,255,0.82) 0%, rgba(245,252,255,0.4) 45%, transparent 70%);
+    filter:blur(22px);
+    animation:mcLeft 60s infinite linear;
+    animation-delay:-32s;
+}
+
+.mc-5{
+    top:34%;
+    width:52vw;
+    height:170px;
+    background:radial-gradient(ellipse, rgba(255,253,248,0.80) 0%, rgba(255,253,248,0.4) 40%, transparent 70%);
+    filter:blur(14px);
+    animation:mcRight 44s infinite linear;
+    animation-delay:-7s;
+}
+
+@keyframes mcRight{
+    from{ transform:translateX(-100vw); }
+    to{ transform:translateX(110vw); }
+}
+
+@keyframes mcLeft{
+    from{ transform:translateX(110vw); }
+    to{ transform:translateX(-100vw); }
+}
+
+/* ===== SECTION ===== */
+
+.section{
+    position:relative;
+    min-height:120vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+}
+
+.section-image{
+    position:absolute;
+    inset:0;
+    background-size:cover;
+    background-position:center;
+    transform:scale(1.08);
+    filter:brightness(0.8) saturate(0.85) sepia(0.2);
+}
+
+.section-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to bottom, rgba(247,243,238,0.88), rgba(240,234,222,0.72));
+}
+
+.section-content{
+    position:relative;
+    z-index:2;
+    width:min(1100px, 90%);
+    color:#2c1f10;
+}
+
+.kicker{
+    font-size:11px;
+    letter-spacing:6px;
+    margin-bottom:25px;
+    color:#b5893a;
+}
+
+.big-text{
+    font-family:'Cormorant Garamond', serif;
+    font-size:clamp(46px, 7vw, 100px);
+    line-height:1.1;
+    font-weight:300;
+    margin-bottom:40px;
+    color:#2c1f10;
+}
+
+.section-desc{
+    max-width:540px;
+    line-height:2.1;
+    color:rgba(44,31,16,0.62);
+    font-size:15px;
+}
+
+/* ===== WORKS ===== */
+
+.works{
+    padding:120px 10%;
+    background:#f7f3ee;
+    border-top:1px solid rgba(44,31,16,0.06);
+}
+
+.works-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:20px;
+    margin-top:60px;
+}
+
+.work-card{
+    display:flex;
+    flex-direction:column;
+    padding:40px 32px;
+    border:1px solid rgba(44,31,16,0.12);
+    border-radius:2px;
+    text-decoration:none;
+    color:#2c1f10;
+    transition:all 0.5s cubic-bezier(.19,1,.22,1);
+    background:#f7f3ee;
+    position:relative;
+    overflow:hidden;
+}
+
+.work-card::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:linear-gradient(135deg, rgba(181,137,58,0.07), transparent);
+    opacity:0;
+    transition:opacity 0.4s;
+}
+
+.work-card:hover{
+    border-color:#b5893a;
+    transform:translateY(-6px);
+    box-shadow:0 12px 40px rgba(181,137,58,0.12);
+}
+
+.work-card:hover::before{
+    opacity:1;
+}
+
+.work-num{
+    font-family:'Cormorant Garamond', serif;
+    font-size:64px;
+    font-weight:300;
+    color:rgba(44,31,16,0.07);
+    line-height:1;
+    margin-bottom:12px;
+}
+
+.work-type{
+    font-size:10px;
+    letter-spacing:3px;
+    color:#b5893a;
+    margin-bottom:14px;
+}
+
+.work-title{
+    font-family:'Cormorant Garamond', serif;
+    font-size:32px;
+    font-weight:300;
+    letter-spacing:2px;
+    margin-bottom:16px;
+    line-height:1.2;
+    color:#2c1f10;
+}
+
+.work-desc{
+    font-size:13px;
+    line-height:2.1;
+    color:rgba(44,31,16,0.55);
+    flex:1;
+    margin-bottom:28px;
+}
+
+.work-cta{
+    font-size:11px;
+    letter-spacing:4px;
+    color:rgba(44,31,16,0.38);
+    transition:color 0.3s;
+}
+
+.work-card:hover .work-cta{
+    color:#b5893a;
+}
+
+@media(max-width:768px){
+    .works-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+/* ===== REVEAL ===== */
+
+.reveal{
+    opacity:0;
+    transform:translateY(60px);
+    transition:all 1.8s cubic-bezier(.19,1,.22,1);
+}
+
+.reveal.active{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* ===== GATEWAY ===== */
+
+.gateway{
+    padding:120px 10%;
+    background:#ede8df;
+    border-top:1px solid rgba(44,31,16,0.08);
+}
+
+.gateway-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+    margin-top:60px;
+}
+
+.gateway-card{
+    display:flex;
+    flex-direction:column;
+    padding:48px 40px;
+    border:1px solid rgba(44,31,16,0.12);
+    border-radius:2px;
+    text-decoration:none;
+    color:#2c1f10;
+    transition:all 0.5s cubic-bezier(.19,1,.22,1);
+    background:#f7f3ee;
+    position:relative;
+    overflow:hidden;
+}
+
+.gateway-card::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:linear-gradient(135deg, rgba(181,137,58,0.07), transparent);
+    opacity:0;
+    transition:opacity 0.4s;
+}
+
+.gateway-card:hover{
+    border-color:#b5893a;
+    transform:translateY(-6px);
+    box-shadow:0 12px 40px rgba(181,137,58,0.12);
+}
+
+.gateway-card:hover::before{
+    opacity:1;
+}
+
+.gateway-num{
+    font-family:'Cormorant Garamond', serif;
+    font-size:80px;
+    font-weight:300;
+    color:rgba(44,31,16,0.07);
+    line-height:1;
+    margin-bottom:16px;
+}
+
+.gateway-label{
+    font-family:'Cormorant Garamond', serif;
+    font-size:38px;
+    font-weight:300;
+    letter-spacing:2px;
+    margin-bottom:16px;
+    line-height:1.2;
+    color:#2c1f10;
+}
+
+.gateway-tag{
+    display:inline-block;
+    font-size:11px;
+    letter-spacing:2px;
+    padding:4px 10px;
+    border:1px solid rgba(181,137,58,0.45);
+    color:rgba(150,90,15,0.9);
+    background:rgba(181,137,58,0.07);
+    border-radius:2px;
+    margin-bottom:20px;
+    width:fit-content;
+}
+
+.gateway-desc{
+    font-size:14px;
+    line-height:2.1;
+    color:rgba(44,31,16,0.55);
+    flex:1;
+    margin-bottom:36px;
+}
+
+.gateway-cta{
+    font-size:11px;
+    letter-spacing:4px;
+    color:rgba(44,31,16,0.38);
+    transition:color 0.3s;
+}
+
+.gateway-card:hover .gateway-cta{
+    color:#b5893a;
+}
+
+@media(max-width:768px){
+    .gateway{
+        padding:80px 6%;
+    }
+    .gateway-grid{
+        grid-template-columns:1fr;
+    }
+    .gateway-label{
+        font-size:28px;
+    }
+    .gateway-num{
+        font-size:60px;
+    }
+}
+
+/* ===== FOOTER ===== */
+
+footer{
+    padding:160px 10% 80px;
+    background:#2c1f10;
+}
+
+.footer-title{
+    font-family:'Cormorant Garamond', serif;
+    font-size:64px;
+    margin-bottom:40px;
+    font-weight:300;
+    color:#f5ede0;
+}
+
+.footer-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    margin-top:60px;
+}
+
+.footer-text{
+    line-height:2.2;
+    color:rgba(245,237,224,0.65);
+}
+
+.footer-small{
+    margin-top:80px;
+    font-size:12px;
+    letter-spacing:3px;
+    color:rgba(245,237,224,0.28);
+}
+
+/* ===== MOBILE ===== */
+
+@media(max-width:768px){
+
+    nav{
+        padding:24px;
+    }
+
+    .hero-title{
+        line-height:1.05;
+    }
+
+    .hero-desc{
+        font-size:14px;
+        line-height:2;
+    }
+
+    .big-text{
+        font-size:52px;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .footer-title{
+        font-size:42px;
+    }
+
+}
+
+/* ===== INTRO ===== */
+
+#intro{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    background:#f7f3ee;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    transition:transform 1.1s cubic-bezier(0.76,0,0.24,1);
+}
+
+#intro.exit{
+    transform:translateY(-100%);
+}
+
+.intro-inner{
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+/* 圖示容器 */
+.intro-emblem{
+    position:relative;
+    width:140px;
+    height:140px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:40px;
+}
+
+/* 外圈擴張環 */
+.intro-ring{
+    position:absolute;
+    inset:-18px;
+    border-radius:50%;
+    border:1px solid rgba(181,137,58,0);
+    transform:scale(0.55);
+    transition:transform 1.6s cubic-bezier(0.19,1,0.22,1),
+               border-color 1s ease;
+}
+
+.intro-ring.show{
+    transform:scale(1);
+    border-color:rgba(181,137,58,0.5);
+}
+
+/* Logo 圖片 */
+.intro-logo{
+    width:120px;
+    height:120px;
+    object-fit:contain;
+    mix-blend-mode:multiply;
+    transform:scale(0.72);
+    opacity:0;
+    transition:opacity 1s cubic-bezier(0.19,1,0.22,1),
+               transform 1.2s cubic-bezier(0.19,1,0.22,1);
+}
+
+.intro-logo.show{
+    opacity:1;
+    transform:scale(1);
+}
+
+.intro-hospital{
+    font-size:11px;
+    letter-spacing:7px;
+    color:rgba(44,31,16,0.45);
+    margin-bottom:20px;
+    transform:translateY(12px);
+    opacity:0;
+    transition:opacity 0.9s cubic-bezier(0.19,1,0.22,1),
+               transform 0.9s cubic-bezier(0.19,1,0.22,1);
+}
+
+.intro-hospital.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.intro-line{
+    width:0;
+    height:1px;
+    background:#b5893a;
+    margin-bottom:20px;
+    transition:width 0.7s cubic-bezier(0.19,1,0.22,1);
+}
+
+.intro-line.show{
+    width:52px;
+}
+
+.intro-title{
+    font-family:'Noto Serif TC', serif;
+    font-size:clamp(24px, 4vw, 40px);
+    font-weight:300;
+    color:#2c1f10;
+    letter-spacing:8px;
+    transform:translateY(16px);
+    opacity:0;
+    transition:opacity 1s cubic-bezier(0.19,1,0.22,1),
+               transform 1s cubic-bezier(0.19,1,0.22,1);
+}
+
+.intro-title.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+</style>
+</head>
+<body>
+
+<div id="intro">
+    <div class="intro-inner">
+        <div class="intro-emblem">
+            <div class="intro-ring"></div>
+            <img class="intro-logo" src="logo.png" alt="">
+        </div>
+        <p class="intro-hospital">花蓮慈濟醫院</p>
+        <div class="intro-line"></div>
+        <p class="intro-title">公共傳播室</p>
+    </div>
+</div>
+
+<nav>
+    <div class="logo">花蓮慈濟醫院 公共傳播室</div>
+    <div class="nav-right">HUALIEN TZU CHI HOSPITAL</div>
+</nav>
+
+<section class="hero">
+
+    <img class="hero-img" src="hospital.jpg" alt="花蓮慈濟醫院">
+
+    <div class="hero-overlay"></div>
+
+    <div class="mc mc-1"></div>
+    <div class="mc mc-2"></div>
+    <div class="mc mc-3"></div>
+    <div class="mc mc-4"></div>
+    <div class="mc mc-5"></div>
+
+    <div class="hero-content reveal">
+
+        <div class="hero-sub">Public Commucation</div>
+
+        <h1 class="hero-title">
+            公共傳播室
+        </h1>
+
+        <div class="hero-desc">
+            紀錄每一個在醫院發生的動人故事<br>
+            傳遞慈濟人文的溫度與光
+        </div>
+
+    </div>
+
+    <div class="scroll-indicator">
+        SCROLL
+    </div>
+
+</section>
+
+<section class="section">
+
+    <div class="section-image"
+    style="background-image:url('https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=1800&auto=format&fit=crop');"></div>
+
+    <div class="section-overlay"></div>
+
+    <div class="section-content reveal">
+
+        <div class="kicker">人文紀錄</div>
+
+        <div class="big-text">
+            每一個故事<br>
+            都值得被看見
+        </div>
+
+        <div class="section-desc">
+            從急診室的燈光到病房裡的守候，
+            從醫護人員的堅持到病人的重生，
+            我們走進生命現場，
+            用文字與影像留下這份溫度。
+        </div>
+
+    </div>
+
+</section>
+
+<section class="section">
+
+    <div class="section-image"
+    style="background-image:url('https://images.unsplash.com/photo-1580281657527-47f249e8f4df?q=80&w=1800&auto=format&fit=crop');"></div>
+
+    <div class="section-overlay"></div>
+
+    <div class="section-content reveal">
+
+        <div class="kicker">慈濟人文</div>
+
+        <div class="big-text">
+            醫療之外<br>
+            是人與人的相遇
+        </div>
+
+        <div class="section-desc">
+            慈濟人文不只是精神，
+            它活在每一次問診的眼神裡、
+            每一個跨越病痛的擁抱裡。
+            我們的任務，是讓這份精神被更多人看見。
+        </div>
+
+    </div>
+
+</section>
+
+<section class="section">
+
+    <div class="section-image"
+    style="background-image:url('https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=1800&auto=format&fit=crop');"></div>
+
+    <div class="section-overlay"></div>
+
+    <div class="section-content reveal">
+
+        <div class="kicker">研究與成就</div>
+
+        <div class="big-text">
+            醫學的進步<br>
+            從花蓮出發
+        </div>
+
+        <div class="section-desc">
+            花蓮慈濟醫院的醫療團隊持續突破，
+            研究成果走向國際。
+            我們負責將這些成就轉化為社會能理解的語言，
+            讓醫學的光照得更遠。
+        </div>
+
+    </div>
+
+</section>
+
+<section class="works">
+
+    <div class="reveal">
+
+        <div class="kicker">公傳成果</div>
+
+        <div class="big-text">我們的作品</div>
+
+        <div class="works-grid">
+
+            <a class="work-card" href="https://hlm.tzuchi.com.tw/anniversary/" target="_blank" rel="noopener">
+                <div class="work-num">01</div>
+                <div class="work-type">活動專網</div>
+                <div class="work-title">40 周年慶</div>
+                <div class="work-desc">
+                    記錄花蓮慈濟醫院四十年間的醫療故事、
+                    人文歷程與重要里程碑。
+                </div>
+                <div class="work-cta">前往專網 →</div>
+            </a>
+
+            <a class="work-card" href="https://hlm.tzuchi.com.tw/home/index.php/expo/" target="_blank" rel="noopener">
+                <div class="work-num">02</div>
+                <div class="work-type">展覽專網</div>
+                <div class="work-title">醫療科技展</div>
+                <div class="work-desc">
+                    台灣醫療科技展參展成果，
+                    呈現花蓮慈濟醫院的醫療研究與技術創新。
+                </div>
+                <div class="work-cta">前往展區 →</div>
+            </a>
+
+            <a class="work-card" href="https://www.youtube.com/@hltchos" target="_blank" rel="noopener">
+                <div class="work-num">03</div>
+                <div class="work-type">影音頻道</div>
+                <div class="work-title">YouTube 頻道</div>
+                <div class="work-desc">
+                    醫療衛教、活動紀錄與人文故事，
+                    持續更新的官方影音平台。
+                </div>
+                <div class="work-cta">前往頻道 →</div>
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="gateway">
+
+    <div class="reveal">
+
+        <div class="kicker">SERVICE GATEWAY</div>
+
+        <div class="big-text">我們的服務</div>
+
+        <div class="gateway-grid">
+
+            <a class="gateway-card" href="pc.html">
+                <div class="gateway-num">01</div>
+                <div class="gateway-label">公傳服務總覽</div>
+                <div class="gateway-tag">⚠ 需院內網路</div>
+                <div class="gateway-desc">
+                    人員照片下載、各類業務申請窗口、<br>
+                    院內公版素材取得，<br>
+                    以及網站管理後台入口。
+                </div>
+                <div class="gateway-cta">進入服務頁 →</div>
+            </a>
+
+            <a class="gateway-card" href="joomla_study/">
+                <div class="gateway-num">02</div>
+                <div class="gateway-label">Joomla 教學文件</div>
+                <div class="gateway-desc">
+                    醫院官網、醫療科網的管理教學，<br>
+                    涵蓋基礎操作到各部門進階指南，<br>
+                    供網站維護同仁參考。
+                </div>
+                <div class="gateway-cta">開啟教學文件 →</div>
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+
+    <div class="reveal">
+
+        <div class="footer-title">
+            花蓮慈濟醫院<br>公共傳播室
+        </div>
+
+        <div class="footer-grid">
+
+            <div class="footer-text">
+                我們負責醫院新聞採訪、人文故事紀錄、
+                醫療成果報導與社群公共溝通，
+                讓醫院與社會之間的距離更近。
+            </div>
+
+            <div class="footer-text">
+                透過影像、文字與故事，
+                推廣慈濟人文精神，
+                讓每一個在這裡發生的故事，
+                都能傳遞到更遠的地方。
+            </div>
+
+        </div>
+
+        <div class="footer-small">
+            © 花蓮慈濟醫院 公共傳播室 &nbsp;|&nbsp; HUALIEN TZU CHI HOSPITAL
+        </div>
+
+    </div>
+
+</footer>
+
+<script>
+
+/* ===== INTRO ===== */
+
+(function(){
+    const intro    = document.getElementById('intro');
+    const ring     = intro.querySelector('.intro-ring');
+    const logo     = intro.querySelector('.intro-logo');
+    const hospital = intro.querySelector('.intro-hospital');
+    const line     = intro.querySelector('.intro-line');
+    const title    = intro.querySelector('.intro-title');
+
+    document.body.style.overflow = 'hidden';
+
+    setTimeout(()=> ring.classList.add('show'),     200);
+    setTimeout(()=> logo.classList.add('show'),     350);
+    setTimeout(()=> hospital.classList.add('show'), 1200);
+    setTimeout(()=> line.classList.add('show'),     1500);
+    setTimeout(()=> title.classList.add('show'),    1750);
+    setTimeout(()=>{
+        intro.classList.add('exit');
+        document.body.style.overflow = '';
+    }, 3100);
+    setTimeout(()=> intro.remove(), 4250);
+})();
+
+/* ===== REVEAL ===== */
+
+const reveals = document.querySelectorAll('.reveal');
+
+const observer = new IntersectionObserver((entries)=>{
+
+    entries.forEach(entry=>{
+
+        if(entry.isIntersecting){
+            entry.target.classList.add('active');
+        }
+
+    });
+
+},{
+    threshold:0.2
+});
+
+reveals.forEach(el=>observer.observe(el));
+
+/* ===== PARALLAX ===== */
+
+window.addEventListener('scroll', ()=>{
+
+    const scrollY = window.scrollY;
+
+    document.querySelectorAll('.section-image').forEach((bg,index)=>{
+
+        const speed = 0.08;
+        bg.style.transform = `translateY(${scrollY * speed}px) scale(1.08)`;
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>

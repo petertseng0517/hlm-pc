@@ -17,7 +17,7 @@ markdown_extensions:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
 nav:
-  - 首頁: index.md
+  - 首頁: joomla_study.md
   - 關於我: https://github.com/petertseng0517
   - 基礎joomla教學:
       - 取得Joomla管理帳號: joomla/取得Joomla管理帳號.md
