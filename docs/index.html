@@ -577,13 +577,30 @@ footer{
 }
 
 .intro-inner{
-    text-align:center;
+    position:relative;
     display:flex;
-    flex-direction:column;
     align-items:center;
+    justify-content:center;
 }
 
-/* 圖示容器 */
+/* 慈 字 */
+.intro-kanji{
+    position:absolute;
+    font-family:'Noto Serif TC', serif;
+    font-size:clamp(100px, 18vw, 180px);
+    font-weight:300;
+    color:#2c1f10;
+    letter-spacing:0;
+    opacity:0;
+    transition:opacity 0.9s ease;
+    user-select:none;
+    pointer-events:none;
+}
+
+.intro-kanji.show{ opacity:1; }
+.intro-kanji.fade{ opacity:0; }
+
+/* Logo 容器 */
 .intro-emblem{
     position:relative;
     width:140px;
@@ -591,38 +608,11 @@ footer{
     display:flex;
     align-items:center;
     justify-content:center;
-    margin-bottom:40px;
+    opacity:0;
+    transition:opacity 0.9s ease;
 }
 
-/* 外圈描繪動畫 */
-.intro-ring-svg{
-    position:absolute;
-    inset:-18px;
-    width:calc(100% + 36px);
-    height:calc(100% + 36px);
-    overflow:visible;
-    pointer-events:none;
-}
-
-.intro-ring-circle{
-    fill:none;
-    stroke:rgba(181,137,58,0.55);
-    stroke-width:1.2;
-    stroke-linecap:round;
-    stroke-dasharray:553;
-    stroke-dashoffset:553;
-    transform-box:fill-box;
-    transform-origin:center;
-    transform:rotate(-90deg);
-}
-
-.intro-ring-circle.show{
-    animation:drawCircle 1.5s cubic-bezier(0.4,0,0.2,1) forwards;
-}
-
-@keyframes drawCircle{
-    to{ stroke-dashoffset:0; }
-}
+.intro-emblem.show{ opacity:1; }
 
 /* Logo 圖片 */
 .intro-logo{
@@ -630,61 +620,64 @@ footer{
     height:120px;
     object-fit:contain;
     mix-blend-mode:multiply;
-    transform:scale(0.72);
-    opacity:0;
-    transition:opacity 1s cubic-bezier(0.19,1,0.22,1),
-               transform 1.2s cubic-bezier(0.19,1,0.22,1);
 }
 
-.intro-logo.show{
-    opacity:1;
-    transform:scale(1);
+/* 四角直線容器 */
+.intro-corners{
+    position:absolute;
+    inset:-22px;
+    pointer-events:none;
 }
 
-.intro-hospital{
-    font-size:11px;
-    letter-spacing:7px;
-    color:rgba(44,31,16,0.45);
-    margin-bottom:20px;
-    transform:translateY(12px);
-    opacity:0;
-    transition:opacity 0.9s cubic-bezier(0.19,1,0.22,1),
-               transform 0.9s cubic-bezier(0.19,1,0.22,1);
+/* 各角落定位 */
+.ic{
+    position:absolute;
+    width:44px;
+    height:44px;
 }
 
-.intro-hospital.show{
-    opacity:1;
-    transform:translateY(0);
-}
+.ic-tl{ top:0;    left:0;  }
+.ic-tr{ top:0;    right:0; }
+.ic-bl{ bottom:0; left:0;  }
+.ic-br{ bottom:0; right:0; }
 
-.intro-line{
-    width:0;
+/* 水平線 */
+.ic::before{
+    content:'';
+    position:absolute;
     height:1px;
-    background:#b5893a;
-    margin-bottom:20px;
-    transition:width 0.7s cubic-bezier(0.19,1,0.22,1);
+    width:0;
+    background:rgba(44,31,16,0.45);
+    transition:width 0.55s cubic-bezier(0.4,0,0.2,1);
 }
 
-.intro-line.show{
-    width:52px;
+/* 垂直線 */
+.ic::after{
+    content:'';
+    position:absolute;
+    width:1px;
+    height:0;
+    background:rgba(44,31,16,0.45);
+    transition:height 0.55s cubic-bezier(0.4,0,0.2,1);
 }
 
-.intro-title{
-    font-family:'Noto Serif TC', serif;
-    font-size:clamp(24px, 4vw, 40px);
-    font-weight:300;
-    color:#2c1f10;
-    letter-spacing:8px;
-    transform:translateY(16px);
-    opacity:0;
-    transition:opacity 1s cubic-bezier(0.19,1,0.22,1),
-               transform 1s cubic-bezier(0.19,1,0.22,1);
-}
+/* 各角落線條方向 */
+.ic-tl::before{ top:0;    left:0;  }
+.ic-tl::after { top:0;    left:0;  }
+.ic-tr::before{ top:0;    right:0; }
+.ic-tr::after { top:0;    right:0; }
+.ic-bl::before{ bottom:0; left:0;  }
+.ic-bl::after { bottom:0; left:0;  }
+.ic-br::before{ bottom:0; right:0; }
+.ic-br::after { bottom:0; right:0; }
 
-.intro-title.show{
-    opacity:1;
-    transform:translateY(0);
-}
+/* 線條畫出 */
+.intro-corners.show .ic::before{ width:44px; }
+.intro-corners.show .ic::after { height:44px; }
+
+/* 線條消失 */
+.intro-corners.fade .ic::before{ width:0;  transition-duration:0.35s; }
+.intro-corners.fade .ic::after { height:0; transition-duration:0.35s; }
 
 </style>
 </head>
@@ -692,15 +685,16 @@ footer{
 
 <div id="intro">
     <div class="intro-inner">
+        <p class="intro-kanji">慈</p>
         <div class="intro-emblem">
-            <svg class="intro-ring-svg" viewBox="0 0 176 176" xmlns="http://www.w3.org/2000/svg">
-                <circle class="intro-ring-circle" cx="88" cy="88" r="88"/>
-            </svg>
+            <div class="intro-corners">
+                <span class="ic ic-tl"></span>
+                <span class="ic ic-tr"></span>
+                <span class="ic ic-bl"></span>
+                <span class="ic ic-br"></span>
+            </div>
             <img class="intro-logo" src="logo.png" alt="">
         </div>
-        <p class="intro-hospital">花蓮慈濟醫院</p>
-        <div class="intro-line"></div>
-        <p class="intro-title">公共傳播室</p>
     </div>
 </div>
 
@@ -972,25 +966,29 @@ footer{
 /* ===== INTRO ===== */
 
 (function(){
-    const intro    = document.getElementById('intro');
-    const ring     = intro.querySelector('.intro-ring-circle');
-    const logo     = intro.querySelector('.intro-logo');
-    const hospital = intro.querySelector('.intro-hospital');
-    const line     = intro.querySelector('.intro-line');
-    const title    = intro.querySelector('.intro-title');
+    const intro   = document.getElementById('intro');
+    const kanji   = intro.querySelector('.intro-kanji');
+    const emblem  = intro.querySelector('.intro-emblem');
+    const corners = intro.querySelector('.intro-corners');
 
     document.body.style.overflow = 'hidden';
 
-    setTimeout(()=> ring.classList.add('show'),     200);
-    setTimeout(()=> logo.classList.add('show'),     350);
-    setTimeout(()=> hospital.classList.add('show'), 1200);
-    setTimeout(()=> line.classList.add('show'),     1500);
-    setTimeout(()=> title.classList.add('show'),    1750);
+    // 慈 字出現
+    setTimeout(()=> kanji.classList.add('show'),   300);
+    // 慈 字消失
+    setTimeout(()=> kanji.classList.add('fade'),   2100);
+    // Logo 出現
+    setTimeout(()=> emblem.classList.add('show'),  2700);
+    // 四角線條畫出
+    setTimeout(()=> corners.classList.add('show'), 3200);
+    // 四角線條消失
+    setTimeout(()=> corners.classList.add('fade'), 4000);
+    // 頁面滑走
     setTimeout(()=>{
         intro.classList.add('exit');
         document.body.style.overflow = '';
-    }, 3100);
-    setTimeout(()=> intro.remove(), 4250);
+    }, 4500);
+    setTimeout(()=> intro.remove(), 5650);
 })();
 
 /* ===== REVEAL ===== */
