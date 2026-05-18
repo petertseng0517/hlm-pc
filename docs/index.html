@@ -594,20 +594,34 @@ footer{
     margin-bottom:40px;
 }
 
-/* 外圈擴張環 */
-.intro-ring{
+/* 外圈描繪動畫 */
+.intro-ring-svg{
     position:absolute;
     inset:-18px;
-    border-radius:50%;
-    border:1px solid rgba(181,137,58,0);
-    transform:scale(0.55);
-    transition:transform 1.6s cubic-bezier(0.19,1,0.22,1),
-               border-color 1s ease;
+    width:calc(100% + 36px);
+    height:calc(100% + 36px);
+    overflow:visible;
+    pointer-events:none;
 }
 
-.intro-ring.show{
-    transform:scale(1);
-    border-color:rgba(181,137,58,0.5);
+.intro-ring-circle{
+    fill:none;
+    stroke:rgba(181,137,58,0.55);
+    stroke-width:1.2;
+    stroke-linecap:round;
+    stroke-dasharray:553;
+    stroke-dashoffset:553;
+    transform-box:fill-box;
+    transform-origin:center;
+    transform:rotate(-90deg);
+}
+
+.intro-ring-circle.show{
+    animation:drawCircle 1.5s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+
+@keyframes drawCircle{
+    to{ stroke-dashoffset:0; }
 }
 
 /* Logo 圖片 */
@@ -679,7 +693,9 @@ footer{
 <div id="intro">
     <div class="intro-inner">
         <div class="intro-emblem">
-            <div class="intro-ring"></div>
+            <svg class="intro-ring-svg" viewBox="0 0 176 176" xmlns="http://www.w3.org/2000/svg">
+                <circle class="intro-ring-circle" cx="88" cy="88" r="88"/>
+            </svg>
             <img class="intro-logo" src="logo.png" alt="">
         </div>
         <p class="intro-hospital">花蓮慈濟醫院</p>
@@ -945,7 +961,7 @@ footer{
 
 (function(){
     const intro    = document.getElementById('intro');
-    const ring     = intro.querySelector('.intro-ring');
+    const ring     = intro.querySelector('.intro-ring-circle');
     const logo     = intro.querySelector('.intro-logo');
     const hospital = intro.querySelector('.intro-hospital');
     const line     = intro.querySelector('.intro-line');
