@@ -253,6 +253,38 @@
       margin-top: 2px;
     }
 
+    /* 密碼 Modal */
+    .pwd-modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 100;
+      align-items: center; justify-content: center;
+    }
+    .pwd-modal-overlay.open { display: flex; }
+    .pwd-modal {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 28px 32px;
+      min-width: 280px;
+      text-align: center;
+      position: relative;
+    }
+    .pwd-modal h3 { font-size: 0.8rem; color: #4db6ac; margin-bottom: 16px; letter-spacing: 0.1em; }
+    .pwd-value { font-size: 1.4rem; font-weight: 700; letter-spacing: 0.12em; color: #e6edf3; margin: 8px 0 20px; }
+    .pwd-error { font-size: 0.95rem; color: #ff7043; margin: 8px 0 20px; }
+    .pwd-close {
+      padding: 6px 20px;
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      color: #e6edf3;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+    .pwd-close:hover { background: #30363d; }
+
     /* 頁尾 */
     footer {
       text-align: center;
@@ -318,6 +350,11 @@
           <span class="en-label">Retired</span>
         </a>
       </div>
+      <div style="margin-top:14px; text-align:right;">
+        <button class="photo-btn" onclick="showPassword()" style="cursor:pointer;">
+          🔑 查看密碼
+        </button>
+      </div>
     </div>
   </section>
 
@@ -372,6 +409,52 @@
   </footer>
 
 </div>
+
+<!-- 密碼 Modal -->
+<div class="pwd-modal-overlay" id="pwdModal">
+  <div class="pwd-modal">
+    <h3>人員照片下載密碼</h3>
+    <div id="pwdContent"><p style="color:#8b949e;font-size:0.9rem;">驗證中…</p></div>
+    <button class="pwd-close" onclick="closePassword()">關閉</button>
+  </div>
+</div>
+
+<script>
+  async function showPassword() {
+    const modal = document.getElementById('pwdModal');
+    const content = document.getElementById('pwdContent');
+    modal.classList.add('open');
+    content.innerHTML = '<p style="color:#8b949e;font-size:0.9rem;">驗證中…</p>';
+
+    const onIntranet = await checkIntranet();
+    if (onIntranet) {
+      content.innerHTML = '<div class="pwd-value">tzuchi038561825</div>';
+    } else {
+      content.innerHTML = '<div class="pwd-error">非院內網路不提供密碼</div>';
+    }
+  }
+
+  function closePassword() {
+    document.getElementById('pwdModal').classList.remove('open');
+  }
+
+  async function checkIntranet() {
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 2000);
+      await fetch('https://10.2.28.149/', { mode: 'no-cors', signal: controller.signal });
+      clearTimeout(timer);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  // 點遮罩關閉
+  document.getElementById('pwdModal').addEventListener('click', function(e) {
+    if (e.target === this) closePassword();
+  });
+</script>
 
 </body>
 </html>
