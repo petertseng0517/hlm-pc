@@ -166,6 +166,11 @@
       color: #fff;
     }
 
+    .ratio-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
     /* 品質滑桿 */
     .quality-row {
       display: flex;
@@ -176,6 +181,11 @@
     #quality-slider {
       width: 120px;
       accent-color: #00897b;
+    }
+
+    #quality-slider:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
     }
 
     #quality-value {
@@ -265,7 +275,7 @@
   </div>
 
   <div id="no-webp-warning">
-    您的瀏覽器不支援輸出 WebP 格式，建議使用 Chrome 或 Edge。
+    您的瀏覽器不支援輸出 WebP 格式，已自動改用 PNG 格式，建議使用 Chrome 或 Edge 以使用 WebP。
   </div>
   <div id="file-size-warning">
     圖片檔案超過 20MB，已自動縮小以確保穩定性，不影響裁切操作。
@@ -291,7 +301,7 @@
     <div class="controls">
       <div class="control-group">
         <label>裁切比例</label>
-        <div class="ratio-buttons">
+        <div class="ratio-buttons" id="ratio-buttons">
           <button class="ratio-btn" data-ratio="NaN">自由</button>
           <button class="ratio-btn" data-ratio="1">1:1</button>
           <button class="ratio-btn" data-ratio="1.3333">4:3</button>
@@ -305,10 +315,18 @@
       </div>
 
       <div class="control-group">
-        <label>輸出品質</label>
+        <label id="quality-label">輸出品質</label>
         <div class="quality-row">
           <input type="range" id="quality-slider" min="1" max="100" value="85">
           <span id="quality-value">85%</span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label>輸出格式</label>
+        <div class="ratio-buttons" id="format-buttons">
+          <button class="ratio-btn active" data-format="webp">WebP</button>
+          <button class="ratio-btn" data-format="png">PNG</button>
         </div>
       </div>
 
@@ -318,11 +336,11 @@
       </div>
 
       <button id="reset-btn">重新上傳</button>
-      <button id="download-btn">下載 .webp</button>
+      <button id="download-btn">下載圖片</button>
     </div>
 
     <div class="tip-box">
-      下載後，請前往 <strong>Joomla 後台 → 文章編輯 → 插入圖片 → 上傳</strong>，選擇剛下載的 .webp 檔案。
+      下載後，請前往 <strong>Joomla 後台 → 文章編輯 → 插入圖片 → 上傳</strong>，選擇剛下載的圖片檔案。
     </div>
   </div>
 </div>
@@ -343,6 +361,7 @@
   const noWebpWarning = document.getElementById('no-webp-warning');
   const fileSizeWarning = document.getElementById('file-size-warning');
   const outputSizeNote = document.getElementById('output-size-note');
+  const qualityLabel = document.getElementById('quality-label');
 
   const MAX_FILE_MB = 20;
   const MAX_DIMENSION = 4000;
@@ -353,6 +372,7 @@
   let previewDebounce = null;
   let outputSize = null;
   let sizeLimit = JOOMLA_LIMIT_BYTES;
+  let outputFormat = 'webp';
 
   // 檢查瀏覽器是否支援 WebP 輸出
   function supportsWebPOutput() {
@@ -361,10 +381,24 @@
     return c.toDataURL('image/webp').startsWith('data:image/webp');
   }
 
-  if (!supportsWebPOutput()) {
+  const webpSupported = supportsWebPOutput();
+
+  if (!webpSupported) {
     noWebpWarning.style.display = 'block';
-    downloadBtn.disabled = true;
+    const webpBtn = document.querySelector('#format-buttons .ratio-btn[data-format="webp"]');
+    webpBtn.disabled = true;
+    webpBtn.classList.remove('active');
+    document.querySelector('#format-buttons .ratio-btn[data-format="png"]').classList.add('active');
+    outputFormat = 'png';
   }
+
+  function updateQualityControlState() {
+    const isPng = outputFormat === 'png';
+    qualitySlider.disabled = isPng;
+    qualityLabel.textContent = isPng ? '輸出品質（PNG 無損，不適用）' : '輸出品質';
+  }
+
+  updateQualityControlState();
 
   // 拖曳事件
   dropZone.addEventListener('dragover', (e) => {
@@ -437,6 +471,7 @@
       ? cropper.getCroppedCanvas({ width: outputSize.w, height: outputSize.h })
       : cropper.getCroppedCanvas();
     if (!canvas) return;
+    const mimeType = outputFormat === 'png' ? 'image/png' : 'image/webp';
     const quality = parseInt(qualitySlider.value) / 100;
     // 繪製到預覽 canvas
     previewCanvas.width = canvas.width;
@@ -451,7 +486,7 @@
       sizeDisplay.innerHTML = overLimit
         ? `約 <span style="color:#d32f2f">${kb} KB ⚠ 超過 ${limitLabel}，請降低品質或縮小裁切範圍</span>`
         : `約 <span>${kb} KB</span>`;
-    }, 'image/webp', quality);
+    }, mimeType, quality);
   }
 
   // 品質滑桿
@@ -461,9 +496,9 @@
   });
 
   // 比例按鈕
-  document.querySelectorAll('.ratio-btn').forEach((btn) => {
+  document.querySelectorAll('#ratio-buttons .ratio-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.ratio-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('#ratio-buttons .ratio-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       const ratio = parseFloat(btn.dataset.ratio);
       cropper.setAspectRatio(isNaN(ratio) ? NaN : ratio);
@@ -484,6 +519,18 @@
     });
   });
 
+  // 格式按鈕
+  document.querySelectorAll('#format-buttons .ratio-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (btn.disabled) return;
+      document.querySelectorAll('#format-buttons .ratio-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      outputFormat = btn.dataset.format;
+      updateQualityControlState();
+      schedulePreviw();
+    });
+  });
+
   // 下載
   downloadBtn.addEventListener('click', () => {
     if (!cropper) return;
@@ -491,16 +538,18 @@
       ? cropper.getCroppedCanvas({ width: outputSize.w, height: outputSize.h })
       : cropper.getCroppedCanvas();
     if (!canvas) return;
+    const mimeType = outputFormat === 'png' ? 'image/png' : 'image/webp';
+    const extension = outputFormat === 'png' ? '.png' : '.webp';
     const quality = parseInt(qualitySlider.value) / 100;
     canvas.toBlob((blob) => {
       if (!blob) return;
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = originalFileName + '.webp';
+      a.download = originalFileName + extension;
       a.click();
       setTimeout(() => URL.revokeObjectURL(url), 10000);
-    }, 'image/webp', quality);
+    }, mimeType, quality);
   });
 
   // 重設
@@ -515,7 +564,18 @@
     outputSize = null;
     sizeLimit = JOOMLA_LIMIT_BYTES;
     outputSizeNote.style.display = 'none';
-    document.querySelectorAll('.ratio-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('#ratio-buttons .ratio-btn').forEach(b => b.classList.remove('active'));
+
+    // 重設輸出格式為預設 WebP（若支援）
+    document.querySelectorAll('#format-buttons .ratio-btn').forEach(b => b.classList.remove('active'));
+    if (webpSupported) {
+      outputFormat = 'webp';
+      document.querySelector('#format-buttons .ratio-btn[data-format="webp"]').classList.add('active');
+    } else {
+      outputFormat = 'png';
+      document.querySelector('#format-buttons .ratio-btn[data-format="png"]').classList.add('active');
+    }
+    updateQualityControlState();
   });
 })();
 </script>
